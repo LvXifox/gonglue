@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星源遗境游戏教程 | 新手入门指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6C5CE7', // 主色调：紫色
+                        secondary: '#00D2D3', // 辅助色：青色
+                        accent: '#FC5C65', // 强调色：红色
+                        dark: '#1E272E', // 深色背景
+                        light: '#F8F9FA', // 浅色文本
+                    },
+                    fontFamily: {
+                        game: ['Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            }
+            .text-glow {
+                text-shadow: 0 0 10px rgba(108, 92, 231, 0.7);
+            }
+            .section-fade {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            }
+            .section-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-dark text-light font-game antialiased">
+    <!-- 顶部导航栏 -->
+    <header class="fixed top-0 left-0 right-0 bg-dark/80 backdrop-blur-md z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fa fa-gamepad text-primary text-2xl"></i>
+                <h1 class="text-xl md:text-2xl font-bold text-glow">游戏教程</h1>
+            </div>
+            
+            <!-- 移动端菜单按钮 -->
+            <button id="menu-toggle" class="md:hidden text-light focus:outline-none">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <nav id="mobile-nav" class="hidden md:hidden bg-dark/95 hidden">
+            <ul class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <li><a href="#login" class="block py-2 px-4 hover:bg-primary/20 rounded transition-colors">0. 登录介绍</a></li>
+                <li><a href="#basics" class="block py-2 px-4 hover:bg-primary/20 rounded transition-colors">1. 基础介绍</a></li>
+                <li><a href="#modes" class="block py-2 px-4 hover:bg-primary/20 rounded transition-colors">2. 游戏模式介绍</a></li> 
+            </ul>
+        </nav>
+    </header>
+
+    <div class="flex flex-col md:flex-row pt-16">
+        <!-- 桌面端导航目录 -->
+        <aside class="hidden md:block w-64 fixed h-[calc(100vh-4rem)] bg-dark/60 backdrop-blur-sm border-r border-primary/20 overflow-y-auto">
+            <nav class="p-4">
+                <h2 class="text-lg font-semibold mb-4 text-secondary border-b border-secondary/30 pb-2">目录</h2>
+                <ul class="space-y-1">
+                    <li>
+                        <a href="#login" class="toc-link block py-3 px-4 rounded-lg hover:bg-primary/20 transition-all duration-300 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-primary/30 flex items-center justify-center">0</span>
+                            <span>登录介绍</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#basics" class="toc-link block py-3 px-4 rounded-lg hover:bg-primary/20 transition-all duration-300 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-primary/30 flex items-center justify-center">1</span>
+                            <span>基础介绍</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#modes" class="toc-link block py-3 px-4 rounded-lg hover:bg-primary/20 transition-all duration-300 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-primary/30 flex items-center justify-center">2</span>
+                            <span>游戏模式介绍</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="flex-1 md:ml-64">
+            <!-- 英雄区域 -->
+            <section class="relative h-[80vh] flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <div class="absolute inset-0 bg-gradient-to-b from-dark/40 via-dark/70 to-dark z-10"></div>
+                    <img src="img/背景.png" alt="游戏场景背景图" class="w-full h-full object-cover">
+                </div>
+                <div class="container mx-auto px-4 z-20 text-center">
+                    <h1 class="text-[clamp(2rem,5vw,4rem)] font-bold mb-4 text-shadow leading-tight">
+                        欢迎来到 绿熹的游戏攻略<br>当前攻略版本1.0.30
+                    </h1>
+
+                    <p class="text-[clamp(1rem,2vw,1.25rem)] ">游戏每日任务,限时副本,奖励次数刷新时间为早上8点</p>
+                    <p class="text-[clamp(1rem,2vw,1.25rem)] ">多人游戏模式(pvp和pve)(除了遗迹通路和熔岩地龙)的武器等级和武器技能等级固定为50级,装备和星石不生效,武器被动默认不解锁需自行解锁</p>
+                    <p class="text-[clamp(1rem,2vw,1.25rem)] ">每天有20次奖励次数,章节关卡,星石秘境,材料副本,遗迹通路,熔岩地龙共享20次奖励次数,月卡加10次次数</p>
+                    <p class="text-[clamp(1rem,2vw,1.25rem)] ">多人模式奖励次数不限(除了遗迹通路,熔岩地龙)</p>
+                    <p class="text-[clamp(1rem,2vw,1.25rem)] ">当有人抽卡抽到SSR时,本频道会获得15分钟的SSR概率增加的(四叶草标志)buff</p>
+                    <p class="text-[clamp(1rem,2vw,1.25rem)] ">武器券主要来源:菜单->多人->pve->魔力收集简单(普通券),魔力收集困难(限定券).属性固定,无需担心等级低</p>
+                    <p class="text-[clamp(1rem,2vw,1.25rem)] ">翻滚时是不受伤害的,可以用来躲避掉进虚空的伤害(需要把握时机)</p>
+                     <p class="text-[clamp(1rem,2vw,1.25rem)] ">钓鱼时不分水域,只分游戏内时间,部分鱼需要在白天或黑夜才能钓到</p>
+                    <a href="#login" class="inline-flex items-center gap-2 bg-primary hover:bg-primary/80 text-white font-medium py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                        喵~
+                        <i class="fa fa-arrow-down"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 登录介绍 -->
+            <section id="login" class="py-16 section-fade">
+                <div class="container mx-auto px-4">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-xl font-bold">0</div>
+                        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-glow">登录介绍</h2>
+                    </div>
+                    
+                    <div class="bg-dark border border-primary/30 rounded-xl p-6 md:p-8 shadow-lg shadow-primary/10">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-4 text-secondary">游玩方式</h3>
+                                <p class="mb-4 text-light/80"></p>
+                                
+                                <ul class="space-y-4 mb-6">
+                                    <li class="flex gap-3">
+                                        <i class="fa fa-user-circle text-primary mt-1"></i>
+                                        <div>
+                                            <h4 class="font-medium">仅电脑游玩</h4>
+                                            <p class="text-sm text-light/70">电脑下载steam,在steam上购买或使用激活码(注:摩点的码是steam激活码手机端无效)并安装游戏,首次登录游戏时不选择跨平台则账号数据只能在电脑端游玩</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex gap-3">
+                                        <i class="fa fa-mobile text-primary mt-1 text-xl"></i>
+                                        <div>
+                                            <h4 class="font-medium">于电脑和手机游玩</h4>
+                                            <p class="text-sm text-light/70">(有电脑或使用云电脑)：在电脑的Steam上用Steam的激活码或者直接在Steam上购买游戏，电脑下载并登录游戏，第一次登录时要选择跨平台，绑定epic账号登录（不选跨平台数据不互通）。手机端于群文件下载并安装星源(或者国际版taptap,需要梯子,且更新有延迟))，点登陆浏览器会自动跳转到epic登录界面，使用Steam绑定的epic账号登录，此时手机和电脑的数据是互通的。</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex gap-3">
+                                        <i class="fa fa-share-alt text-primary mt-1"></i>
+                                        <div>
+                                            <h4 class="font-medium">手机游玩</h4>
+                                            <p class="text-sm text-light/70">群文件下载并安装星源，点登录会自动跳转到浏览器的epic登录界面，使用epic账号登录（没有就QQ邮箱注册），在游戏内跳转到淘宝购买手机端激活码并完成激活</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                                
+                                <div class="bg-primary/10 border border-primary/30 rounded-lg p-4">
+                                    <h4 class="font-medium flex items-center gap-2 mb-2">
+                                        <i class="fa fa-info-circle text-secondary"></i>
+                                        新手福利/推荐
+                                    </h4>
+                                    <p class="text-sm text-light/70">新手礼包:活动界面复制礼包码,于菜单->兑换界面兑换</p>
+                                    <p class="text-sm text-light/70">温泉:传送点选择小镇东并向东走到达.每天7:30-7:40和20:30-20:40在温泉范围内每30秒获得奖励(已知bug:获得奖励的同时执行了其他需要网络的操作(如钓鱼,提交任务等)会无限提示保存失败(只能退出重进))</p>
+                                    <p class="text-sm text-light/70">新人邀请活动:填写别人的邀请码(本质是对方uid)(需要10级以前且只能填一次)会获得10张抽奖券等奖励,被别人填写邀请码会获得2张抽奖券和羽毛等奖励</p>
+                                    <p class="text-sm text-light/70">本狐的邀请码:0002dc1d6bd1434dbf804a4d33c1f37e</p>
+                                    <p class="text-sm text-light/70">每日抽奖:位于主城抽奖机,能获得各种东西(看运气)</p>
+                                    <p class="text-sm text-light/70">每日任务:必做,全做完能升一级,(根据每天8点刷新时的等级确定给予的经验)</p>
+                                    <p class="text-sm text-light/70">限时副本:必做,简单,并且奖励丰富(根据时间开启,每天开放的每类限一次)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-dark/50 rounded-xl overflow-hidden border border-primary/20 shadow-xl transform transition-transform hover:scale-[1.02]">
+                                <img src="img/新手推荐.png" alt="新手推荐" class="w-full h-auto">
+                                <div class="p-4 bg-dark/80">
+                                    <p class="text-sm text-light/70 text-center">新手推荐</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 基础介绍 -->
+            <section id="basics" class="py-16 bg-gradient-to-b from-dark to-dark/95 section-fade">
+                <div class="container mx-auto px-4">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-xl font-bold">1</div>
+                        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-glow">基础介绍</h2>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- 地图及NPC介绍 -->
+                        <div class="bg-dark border border-primary/30 rounded-xl overflow-hidden shadow-lg shadow-primary/10 transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1">
+                            <div class="h-48 overflow-hidden">
+                                <img src="img/地图3.png" alt="地图及NPC介绍" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-3 text-secondary flex items-center gap-2">
+                                    <i class="fa fa-user-plus"></i>
+                                    
+                                </h3>
+                                <p class="text-light/80 mb-4">长按(或右键)查看图片</p>
+                                <ul class="text-sm text-light/70 space-y-2">
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span>杂货铺:可购买骰子,篝火,烟花,改名卡,兽变水(重新捏角色),社团改名卡,万能染色剂(衣服染色),材料礼包123,魔源礼包,强化石礼包,可解锁画笔,演奏,烹饪(厨师之证),建筑(工匠之证),变大,变小,烹饪成功概率增加(厨神幸运符)。</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span>渔具店：可以购买鱼竿和鱼饵.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span>农村引路员：前往农村种植作物或建造房子。</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span>星石强化：升级或分解星石.(星石类似圣遗物)</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span>武器兑换:用300聚魔石兑换1个SSR.羽毛兑换, 限定武器兑换</span>
+                                    </li><li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span>食品店：可以购买烹饪用的食材.</span>
+                                    </li><li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span>服装店：可以购买服装或对服装染色.</span>
+                                    </li>
+                                    </li><li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span>理发店：花费2000爪爪币更改发型或头发颜色.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 武器星石 -->
+                         
+                        <div class="bg-dark border border-primary/30 rounded-xl overflow-hidden shadow-lg shadow-primary/10 transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1">
+                            <div class="h-48 overflow-hidden">
+                                <img src="img/星石装备属性.png" alt="星石装备属性" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-3 text-secondary flex items-center gap-2">
+                                    <i class="fa fa-gamepad"></i>
+                                    装备和星石属性
+                                </h3>
+                                <p class="text-light/80 mb-4">长按(或右键)查看图片</p>
+                                <ul class="text-sm text-light/70 space-y-2">
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span></span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span></span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                          
+                        <div class="bg-dark border border-primary/30 rounded-xl overflow-hidden shadow-lg shadow-primary/10 transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1">
+                            <div class="h-48 overflow-hidden">
+                                <img src="img/星石概率.png" alt="星石概率强化表" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-3 text-secondary flex items-center gap-2">
+                                    <i class="fa fa-desktop"></i>
+                                    星石概率强化表
+                                </h3>
+                                <p class="text-light/80 mb-4">长按(或右键)查看图片</p>
+                                <ul class="text-sm text-light/70 space-y-2">
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span></span>
+                                        <a href="https://lvxifox.github.io/xingshi/">星石概率计算器(点击跳转,需要加载一会~)</a>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span></span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa fa-check text-secondary mt-1"></i>
+                                        <span></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 基本系统 
+                    <div class="mt-10 bg-dark border border-primary/30 rounded-xl p-6 md:p-8 shadow-lg shadow-primary/10">
+                        <h3 class="text-xl font-semibold mb-6 text-secondary">道具介绍</h3>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa fa-trophy text-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-2">等级与经验</h4>
+                                    <p class="text-sm text-light/70">完成任务、击败敌人可以获得经验值，经验值累积到一定程度会提升等级，解锁新技能和内容。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa fa-shield text-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-2">装备系统</h4>
+                                    <p class="text-sm text-light/70">游戏中有多种装备类型，通过强化、镶嵌可以提升装备属性，增强角色战斗力。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa fa-list-alt text-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-2">任务系统</h4>
+                                    <p class="text-sm text-light/70">主线任务推动剧情发展，支线任务提供额外奖励，日常任务每天更新，提供稳定资源获取途径。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa fa-users text-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-2">社交系统</h4>
+                                    <p class="text-sm text-light/70">可以添加好友、组建队伍、创建公会，与其他玩家一起冒险，共同挑战强大的敌人。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </section>
+
+            <!-- 游戏模式介绍 -->
+            <section id="modes" class="py-16 section-fade">
+                <div class="container mx-auto px-4">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-xl font-bold">2</div>
+                        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-glow">游戏模式介绍</h2>
+                    </div>
+                    
+                    <!-- 模式标签切换 -->
+                    <div class="mb-8 overflow-x-auto pb-2">
+                        <div class="flex gap-2 min-w-max">
+                            <button class="mode-tab active px-6 py-3 rounded-full bg-primary text-white font-medium transition-all" data-mode="story">冒险模式</button>
+                            <button class="mode-tab px-6 py-3 rounded-full bg-dark border border-primary/30 text-light/80 font-medium transition-all hover:bg-primary/10" data-mode="pvp">PVP竞技</button>
+                            <button class="mode-tab px-6 py-3 rounded-full bg-dark border border-primary/30 text-light/80 font-medium transition-all hover:bg-primary/10" data-mode="coop">多人副本</button>
+                            <button class="mode-tab px-6 py-3 rounded-full bg-dark border border-primary/30 text-light/80 font-medium transition-all hover:bg-primary/10" data-mode="endless">魔力收集</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 模式内容 -->
+                    <div class="mode-content" id="story-content">
+                        <div class="bg-dark border border-primary/30 rounded-xl overflow-hidden shadow-lg shadow-primary/10">
+                            <div class="md:flex">
+                                <div class="md:w-1/2">
+                                    <img src="img/冒险模式.png" alt="冒险模式" class="w-full h-full object-cover">
+                                </div>
+                                <div class="md:w-1/2 p-6 md:p-8">
+                                    <h3 class="text-2xl font-semibold mb-4 text-secondary">冒险模式</h3>
+                                    <p class="text-light/80 mb-6">除了限时副本外,均消耗每日奖励次数</p>
+                                    
+                                    <div class="space-y-4 mb-6">
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1">1</i>
+                                            <div>
+                                                <h4 class="font-medium">章节关卡</h4>
+                                                <p class="text-sm text-light/70">主要获得装备.1-2章为新手装备,3章为普通装备(比新手装备好,需要15级穿戴).装备最高为紫色</p>
+                                                <p class="text-sm text-light/70">装备各部位可获得的属性如下,括号内为推荐属性</p>
+                                                <p class="text-sm text-light/70">帽子:生命 物防 魔防  上衣:生命 物防 魔防 <br>爪套:物攻 魔攻 (暴击) 腰带:生命 (暴击 爆伤) <br>裤子:魔防 物防 (魔攻) 护脚:魔防 物防 (物攻)</p>
+                                                <p class="text-sm text-light/70">建议:2-10紫装多,可用于刷装备经验.装备的加成不高,获取优先级不高.前期可以用来刷角色经验或去打材料副本</p>
+                                                <p class="text-sm text-light/70">推荐武器:琪琪(技能可配合莫卡黑洞),艾琳(后台输出),莫卡(聚怪),夏艾(地形杀),星云(解锁被动,普攻快速回蓝)</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1">2</i>
+                                            <div>
+                                                <h4 class="font-medium">星石秘境</h4>
+                                                <p class="text-sm text-light/70">主要获得星石(类似圣遗物),其中光本暗本可夏艾地形杀,火本部分怪可地形杀(火蜥蜴法师会浮空)</p>
+                                                <p class="text-sm text-light/70">火本:可获得一号槽位的生命{物攻}{魔攻}星石.推荐武器:琪琪(技能可配合莫卡黑洞),莫卡(聚怪),夏艾(地形杀),星云(解锁被动,普攻快速回蓝)</p>
+                                                <p class="text-sm text-light/70">水本:可获得二号槽位的生命{物攻}{魔攻}魔防物防星石.推荐武器:艾琳(后台输出),星云(解锁被动,普攻快速回蓝),琪琪(技能配合莫卡黑洞),莫卡(聚怪),穗波(回血)</p>
+                                                <p class="text-sm text-light/70">草本:可获得三号槽位的物攻魔攻魔防物防{暴击}星石.推荐武器:星云(解锁被动,普攻快速回蓝),琪琪(技能配合莫卡黑洞),莫卡(聚怪),库洛姆</p>
+                                                <p class="text-sm text-light/70">光本:可获得四号槽位的生命暴击{暴伤}星石.推荐武器:夏艾(地形杀),星云(解锁被动,普攻快速回蓝),琪琪(技能配合莫卡黑洞),莫卡(聚怪)</p>
+                                                <p class="text-sm text-light/70">暗本:可获得五号槽位的{暴击}魔攻物攻魔防物防星石.推荐武器:夏艾(地形杀),星云(解锁被动,普攻快速回蓝),琪琪(技能配合莫卡黑洞),莫卡(聚怪)</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1">3</i>
+                                            <div>
+                                                <h4 class="font-medium">材料副本</h4>
+                                                <p class="text-sm text-light/70">主要获得解锁武器被动的材料,动态难度</p>
+                                                <p class="text-sm text-light/70">该模式根据角色等级动态难度,可以使用夏艾地形杀(等级高了以后星石和武器等级跟不上就难打,用夏艾吧)</p>
+                                                <p class="text-sm text-light/70">推荐武器:琪琪(技能可配合莫卡黑洞),莫卡(聚怪),夏艾(地形杀),星云(解锁被动,普攻快速回蓝)</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1">4</i>
+                                            <div>
+                                                <h4 class="font-medium">限时副本</h4>
+                                                <p class="text-sm text-light/70">经验药水副本:根据角色等级获得不同等级的药水.躲避提示的颜色,0-5波不击退,6-10波击退一次,11-15波击退2次</p>
+                                                <p class="text-sm text-light/70">爪爪币副本:最多获得30000爪爪币.左右跳跃躲避障碍物.(类似于地铁跑酷)</p>
+                                                <p class="text-sm text-light/70">魔源副本:放炸弹炸箱子,躲避史莱姆,拾取箱子掉落的水晶(每个10魔源,上限200).(史莱姆被炸死会从右下角复活).(类似于炸弹人)</p>
+                                                <p class="text-sm text-light/70">寻宝:获得各种物品(类似于扫雷)如果第一下是雷会自动翻开周围格子.开局请尽量挖中间位置,角落不好操作.在结算以前可以强制退出来重进重开</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1">5</i>
+                                            <div>
+                                                <h4 class="font-medium">光星石本逃课</h4>
+                                                <img src="img/光星石.png">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- <div class="bg-accent/10 border border-accent/30 rounded-lg p-4 inline-block">
+                                        <p class="text-sm text-light/90"><i class="fa fa-lightbulb-o text-accent mr-2"></i> 推荐新手优先体验剧情模式，熟悉游戏操作和世界观。</p>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mode-content hidden" id="pvp-content">
+                        <div class="bg-dark border border-primary/30 rounded-xl overflow-hidden shadow-lg shadow-primary/10">
+                            <div class="md:flex">
+                                <div class="md:w-1/2">
+                                    <img src="img/多人pvp.png" alt="多人PVP" class="w-full h-full object-cover">
+                                </div>
+                                <div class="md:w-1/2 p-6 md:p-8">
+                                    <h3 class="text-2xl font-semibold mb-4 text-secondary">多人PVP</h3>
+                                    <p class="text-light/80 mb-6">不消耗每日奖励次数,武器等级和武器技能等级固定为50级,装备和星石不生效,武器被动默认不解锁需自行解锁</p>
+                                    
+                                    <div class="space-y-4 mb-6">
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1"></i>
+                                            <div>
+                                                <h4 class="font-medium">休闲大乱斗,自由乱斗</h4>
+                                                <p class="text-sm text-light/70">匹配43秒左右必定进入,自动填充9个人机,如果左上角ping为0那么没有其他玩家.(有概率中途加入其他玩家的对局)</p>
+                                                <p class="text-sm text-light/70">武器推荐:各种弓箭(普攻弹道迅速命中),琪琪(啊,你不要过来呀),艾琳(后台输出),诺莉(范围必中技能),莫卡(配合琪琪!)</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1"></i>
+                                            <div>
+                                                <h4 class="font-medium">简易单挑,自由单挑</h4>
+                                                <p class="text-sm text-light/70">需要2名玩家(挂机吧,就是为了完成任务)</p>
+                                                <p class="text-sm text-light/70">武器推荐:各种弓箭(普攻弹道迅速命中).(你真的要杀了我吗,兄弟)</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1"></i>
+                                            <div>
+                                                <h4 class="font-medium">躲猫猫</h4>
+                                                <p class="text-sm text-light/70">奖励有:篝火,骰子,烟花,随机称号卡等.需要10名玩家(难凑)</p>
+                                                <p class="text-sm text-light/70">7名躲藏,3名抓捕.躲藏方会变成随机物体.抓捕方普攻对身边周围范围进行抓捕.场上随时间刷新道具,躲藏方拾取道具获得(一次性)烟雾技能.抓捕方拾取道具(一次性)使用后会召唤一个光球笔直的飞向最近躲藏方一段距离.游戏时间快结束时(好像是后30秒)抓捕方获得移速加成.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- <div class="bg-accent/10 border border-accent/30 rounded-lg p-4 inline-block">
+                                        <p class="text-sm text-light/90"><i class="fa fa-lightbulb-o text-accent mr-2"></i> 达到10级即可解锁PVP模式，建议先熟悉角色技能再参与竞技。</p>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mode-content hidden" id="coop-content">
+                        <div class="bg-dark border border-primary/30 rounded-xl overflow-hidden shadow-lg shadow-primary/10">
+                            <div class="md:flex">
+                                <div class="md:w-1/2">
+                                    <img src="img/多人副本.png" alt="多人pve多人副本" class="w-full h-full object-cover">
+                                </div>
+                                <div class="md:w-1/2 p-6 md:p-8">
+                                    <h3 class="text-2xl font-semibold mb-4 text-secondary">多人pve多人副本</h3>
+                                    <p class="text-light/80 mb-6">(需要通过主线剧情来解锁)需要消耗每日奖励次数.前期建议让npc带飞.</p>
+                                    
+                                    <div class="space-y-4 mb-6">
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1"></i>
+                                            <div>
+                                                <h4 class="font-medium">遗迹通路</h4>
+                                                <p class="text-sm text-light/70"></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1"></i>
+                                            <div>
+                                                <h4 class="font-medium">熔岩地龙</h4>
+                                                <p class="text-sm text-light/70"></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1"></i>
+                                            <div>
+                                                <h4 class="font-medium"></h4>
+                                                <p class="text-sm text-light/70"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- <div class="bg-accent/10 border border-accent/30 rounded-lg p-4 inline-block">
+                                        <p class="text-sm text-light/90"><i class="fa fa-lightbulb-o text-accent mr-2"></i> 合作模式建议与熟悉的玩家组队，使用语音沟通能大幅提高通关效率。</p>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mode-content hidden" id="endless-content">
+                        <div class="bg-dark border border-primary/30 rounded-xl overflow-hidden shadow-lg shadow-primary/10">
+                            <div class="md:flex">
+                                <div class="md:w-1/2">
+                                    <img src="img/魔力收集.png" alt="魔力收集" class="w-full h-full object-cover">
+                                </div>
+                                <div class="md:w-1/2 p-6 md:p-8">
+                                    <h3 class="text-2xl font-semibold mb-4 text-secondary">魔力收集</h3>
+                                    <p class="text-light/80 mb-6">主要获得武器抽奖券(简单模式)限定武器抽奖券(困难模式)强化石.(过于摆烂会无法获得奖励)</p>
+                                    
+                                    <div class="space-y-4 mb-6">
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1"></i>
+                                            <div>
+                                                <h4 class="font-medium">胜利条件</h4>
+                                                <p class="text-sm text-light/70">每轮时间120秒,共四轮.击杀除了史莱姆的怪会掉落紫色水晶,靠近拾取(只能携带一个),带着水晶靠近像水雷的机器,右上角计数会加一,时间到时收集了足够的水晶进入下一轮.</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1"></i>
+                                            <div>
+                                                <h4 class="font-medium">复活队友</h4>
+                                                <p class="text-sm text-light/70">每轮时间结束时若成功收集足够数量的水晶,则进行下一轮,并复活倒地的队友</p>
+                                                <p class="text-sm text-light/70">带着水晶靠近倒地的队友会消耗水晶复活队友(已知bug,队友倒下的同时若周围有玩家携带水晶,则队友会回满血并无法操作,无法再次被救活(依旧视为死亡))</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <i class="fa fa-star text-accent mt-1"></i>
+                                            <div>
+                                                <h4 class="font-medium">失败条件</h4>
+                                                <p class="text-sm text-light/70">所有玩家均倒地时,游戏立即结束.</p>
+                                                <p class="text-sm text-light/70">时间到时,没能收集足够数量的水晶</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-accent/10 border border-accent/30 rounded-lg p-4 inline-block">
+                                        <p class="text-sm text-light/90"><i class="fa fa-lightbulb-o text-accent mr-2"></i>推荐武器:莫卡(聚怪),琪琪(持续伤害,可配合莫卡),艾琳(后台输出),玛斯(解锁被动运水晶),诺莉(清激光独眼怪),穗波(回复)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 页脚 -->
+            <footer class="py-10 bg-dark border-t border-primary/20">
+                <div class="container mx-auto px-4">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div class="flex items-center gap-2">
+                            <i class="fa fa-gamepad text-primary text-2xl"></i>
+                            <span class="font-bold text-xl">星源遗境游戏教程</span>
+                        </div>
+                        
+                        <div class="text-light/60 text-sm">
+                            &copy; 2025 绿熹. 保留所有权利.
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <a href="" class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                <i class="fa fa-youtube-play"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary/80">
+        <i class="fa fa-arrow-up">嗷呜</i>
+    </button>
+
+    <script>
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileNav = document.getElementById('mobile-nav');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('hidden');
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                // 关闭移动菜单（如果打开）
+                if (!mobileNav.classList.contains('hidden')) {
+                    mobileNav.classList.add('hidden');
+                }
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 更新导航高亮
+                    updateNavHighlight(targetId);
+                }
+            });
+        });
+        
+        // 更新导航高亮
+        function updateNavHighlight(activeId) {
+            // 移除所有高亮
+            document.querySelectorAll('.toc-link, #mobile-nav a').forEach(link => {
+                link.classList.remove('bg-primary/20', 'font-medium');
+            });
+            
+            // 添加当前高亮
+            document.querySelectorAll(`.toc-link[href="${activeId}"], #mobile-nav a[href="${activeId}"]`).forEach(link => {
+                link.classList.add('bg-primary/20', 'font-medium');
+            });
+        }
+        
+        // 游戏模式标签切换
+        const modeTabs = document.querySelectorAll('.mode-tab');
+        const modeContents = document.querySelectorAll('.mode-content');
+        
+        modeTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // 移除所有标签的active状态
+                modeTabs.forEach(t => {
+                    t.classList.remove('active', 'bg-primary', 'text-white');
+                    t.classList.add('bg-dark', 'border', 'border-primary/30', 'text-light/80', 'hover:bg-primary/10');
+                });
+                
+                // 添加当前标签的active状态
+                tab.classList.add('active', 'bg-primary', 'text-white');
+                tab.classList.remove('bg-dark', 'border', 'border-primary/30', 'text-light/80', 'hover:bg-primary/10');
+                
+                // 隐藏所有内容
+                modeContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // 显示对应内容
+                const mode = tab.getAttribute('data-mode');
+                document.getElementById(`${mode}-content`).classList.remove('hidden');
+            });
+        });
+        
+        // 滚动监听 - 显示返回顶部按钮
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.add('opacity-0', 'invisible');
+                backToTopButton.classList.remove('opacity-100', 'visible');
+            }
+            
+            // 滚动时更新导航高亮
+            const sections = document.querySelectorAll('section[id]');
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight;
+                
+                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            if (currentSection) {
+                updateNavHighlight(`#${currentSection}`);
+            }
+            
+            // 滚动时显示元素动画
+            const fadeElements = document.querySelectorAll('.section-fade');
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight * 0.85) {
+                    element.classList.add('section-visible');
+                }
+            });
+        });
+        
+        // 返回顶部功能
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 页面加载时初始化
+        window.addEventListener('load', () => {
+            // 触发一次滚动事件，初始化导航高亮和元素显示
+            window.dispatchEvent(new Event('scroll'));
+        });
+    </script>
+</body>
+</html>
