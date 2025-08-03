@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星石概率强化表</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6C5CE7',
+                        secondary: '#00B894',
+                        accent: '#FD79A8',
+                        dark: '#2D3436',
+                        darker: '#1A1A2E',
+                        light: '#F8F9FA',
+                        'stone-1': '#DFE6E9',
+                        'stone-2': '#B2BEC3',
+                        'stone-3': '#636E72',
+                        'stone-4': '#2D3436',
+                        'stone-5': '#0984E3'
+                    },
+                    fontFamily: {
+                        game: ['Segoe UI', 'Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(108, 92, 231, 0.5)',
+                        'glow-accent': '0 0 15px rgba(253, 121, 168, 0.5)',
+                        'glow-success': '0 0 15px rgba(0, 184, 148, 0.5)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+            .stone-hover {
+                transition: all 0.3s ease;
+            }
+            .stone-hover:hover {
+                transform: translateY(-5px);
+            }
+            .bg-glass {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-darker to-dark min-h-screen font-game text-light">
+    <!-- 页面容器 -->
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- 标题区域 -->
+        <header class="text-center mb-12 mt-6">
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold mb-4 text-gradient bg-gradient-to-r from-primary to-accent text-shadow">
+                星石概率强化表
+            </h1>
+            <p class="text-gray-300 max-w-2xl mx-auto text-lg">
+                选择星石等级和强化石组合，查看强化成功率及所需材料。最多可使用3个强化石，等级越高的强化石提供更高的成功率加成。
+            </p>
+        </header>
+        
+        <!-- 主要内容区 -->
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- 左侧：星石选择 -->
+            <section class="lg:col-span-1 space-y-8">
+                <!-- 星石等级选择 -->
+                <div class="bg-glass rounded-xl p-6 border border-primary/20 shadow-glow transform transition-all duration-300 hover:border-primary/40">
+                    <h2 class="text-2xl font-bold mb-6 flex items-center">
+                        <i class="fa fa-diamond text-primary mr-3"></i>星石等级
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <label for="starstone-level" class="text-gray-300 font-medium">当前等级:</label>
+                            <span id="starstone-level-display" class="text-2xl font-bold text-primary">1</span>
+                        </div>
+                        
+                        <input 
+                            type="range" 
+                            id="starstone-level" 
+                            min="1" 
+                            max="12" 
+                            value="1"
+                            class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary"
+                        >
+                        
+                        <div class="flex justify-between text-xs text-gray-400">
+                            <span>1级</span>
+                            <span>6级</span>
+                            <span>12级</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 强化石选择 -->
+                <div class="bg-glass rounded-xl p-6 border border-accent/20 shadow-glow-accent transform transition-all duration-300 hover:border-accent/40">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold flex items-center">
+                            <i class="fa fa-plus-circle text-accent mr-3"></i>强化石
+                        </h2>
+                        <button id="add-stone" class="bg-accent/20 hover:bg-accent/40 text-accent rounded-full w-10 h-10 flex items-center justify-center transition-all">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="stones-container" class="space-y-4">
+                        <!-- 强化石选择器将通过JS动态添加 -->
+                        <div class="stone-selector flex items-center justify-between bg-dark/50 p-4 rounded-lg border border-gray-700">
+                            <span class="font-medium">强化石槽位1</span>
+                            <div class="flex items-center">
+                                <select class="stone-level bg-gray-800 border border-gray-700 text-light rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
+                                    <option value="1">1级</option>
+                                    <option value="2">2级</option>
+                                    <option value="3">3级</option>
+                                    <option value="4">4级</option>
+                                    <option value="5">5级</option>
+                                </select>
+                                <button class="remove-stone ml-3 text-gray-400 hover:text-red-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-dark/30 rounded-lg border border-primary/30">
+                        <h3 class="text-lg font-medium mb-2 flex items-center">
+                            <i class="fa fa-calculator text-primary mr-2"></i>所需材料
+                        </h3>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-300">一级强化石总数:</span>
+                            <span id="total-primary-stones" class="text-2xl font-bold text-primary">1</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-2">
+                            <i class="fa fa-info-circle mr-1"></i> 合成规则: 4个低级强化石 = 1个高级强化石
+                        </p>
+                    </div>
+                    
+                    <p class="text-xs text-gray-400 mt-4">
+                        <i class="fa fa-info-circle mr-1"></i> 最多可使用3个强化石，等级越高提升越大
+                    </p>
+                </div>
+            </section>
+            
+            <!-- 右侧：结果展示 -->
+            <section class="lg:col-span-2">
+                <div class="bg-glass rounded-xl p-6 h-full border border-secondary/20 shadow-glow-success transform transition-all duration-300 hover:border-secondary/40">
+                    <h2 class="text-2xl font-bold mb-6 flex items-center">
+                        <i class="fa fa-bar-chart text-secondary mr-3"></i>强化成功率
+                    </h2>
+                    
+                    <div class="flex flex-col items-center justify-center py-8">
+                        <!-- 概率环形图 -->
+                        <div class="relative mb-8">
+                            <canvas id="probability-chart" width="250" height="250"></canvas>
+                            <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                <span id="probability-value" class="text-5xl font-bold text-secondary">50%</span>
+                                <span class="text-gray-400">成功率</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 概率详情 -->
+                        <div class="w-full max-w-md space-y-4">
+                            <div class="bg-dark/50 p-4 rounded-lg">
+                                <h3 class="text-gray-400 text-sm mb-2">强化详情</h3>
+                                <div class="grid grid-cols-2 gap-3 text-sm">
+                                    <div>
+                                        <span class="text-gray-400">星石等级:</span>
+                                        <span id="detail-starstone" class="font-medium text-primary">1级</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-400">强化石:</span>
+                                        <span id="detail-stones" class="font-medium">1个 (1级)</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-400">总加成:</span>
+                                        <span id="bonus-probability" class="font-medium text-accent">50%</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-400">材料总成本:</span>
+                                        <span id="material-cost" class="font-medium text-primary">1个一级强化石</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 概率说明 -->
+                            <div class="bg-dark/30 p-4 rounded-lg text-sm text-gray-300">
+                                <h3 class="font-medium mb-2 text-secondary">概率说明</h3>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>合成规则：4个1级=1个2级，4个2级=1个3级，以此类推</li>
+                                    <li>小数点后的第三位可能因为四舍五入问题与游戏中的有差异</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- 概率表 -->
+        <section class="mt-12 bg-glass rounded-xl p-6 border border-primary/20 overflow-hidden">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+                <i class="fa fa-table text-primary mr-3"></i>强化概率表
+            </h2>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-gray-700">
+                            <th class="py-3 px-4 font-semibold">星石等级</th>
+                            <th class="py-3 px-4 font-semibold">1级强化石加成</th>
+                            <th class="py-3 px-4 font-semibold">2级强化石加成</th>
+                            <th class="py-3 px-4 font-semibold">3级强化石加成</th>
+                            <th class="py-3 px-4 font-semibold">4级强化石加成</th>
+                            <th class="py-3 px-4 font-semibold">5级强化石加成</th>
+                        </tr>
+                    </thead>
+                    <tbody id="probability-table-body">
+                        <!-- 表格内容将通过JS动态生成 -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- 页脚 -->
+        <footer class="mt-16 text-center text-gray-500 text-sm">
+            <p>星石概率强化表 &copy; 2025 - 所有概率仅供参考</p>
+        </footer>
+    </div>
+    
+    <!-- 引入Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    
+    <script>
+        // 基础概率数据设为0
+        const baseProbabilityValue = 0;
+        
+        // 强化石加成 (等级: [星石1级加成, 星石2级加成, ..., 星石12级加成])
+        const stoneBonuses = {
+            1: [50, 12.5, 5.556, 3.125, 2, 1.389, 1.02, 0.781, 0.617, 0.5, 0.413, 0.347],
+            2: [175, 43.75, 19.444, 10.938, 7, 4.861, 3.571, 2.734, 2.16, 1.75, 1.446, 1.215],
+            3: [612.5, 153.125, 68.056, 38.281, 24.5, 17.014, 12.5, 9.57, 7.562, 6.125, 5.062, 4.253],
+            4: [2143.75, 535.938, 238.194, 133.984, 85.75, 59.549, 43.75, 33.496, 26.466, 21.438, 17.717, 14.887],
+            5: [7500, 1875, 833.333, 468.75, 300, 208.333, 153.061, 117.188, 92.593, 75, 61.983, 52.083]
+        };
+        
+        // 各级强化石等价的一级强化石数量 (4^(n-1))
+        const stoneToPrimaryCount = {
+            1: 1,       // 1级 = 1个一级强化石
+            2: 4,       // 2级 = 4个一级强化石 (4^1)
+            3: 16,      // 3级 = 16个一级强化石 (4^2)
+            4: 64,      // 4级 = 64个一级强化石 (4^3)
+            5: 256      // 5级 = 256个一级强化石 (4^4)
+        };
+        
+        // DOM元素
+        const starstoneLevelInput = document.getElementById('starstone-level');
+        const starstoneLevelDisplay = document.getElementById('starstone-level-display');
+        const stonesContainer = document.getElementById('stones-container');
+        const addStoneBtn = document.getElementById('add-stone');
+        const probabilityValue = document.getElementById('probability-value');
+        const detailStarstone = document.getElementById('detail-starstone');
+        const detailStones = document.getElementById('detail-stones');
+        const bonusProbability = document.getElementById('bonus-probability');
+        const probabilityTableBody = document.getElementById('probability-table-body');
+        const totalPrimaryStones = document.getElementById('total-primary-stones');
+        const materialCost = document.getElementById('material-cost');
+        
+        // 初始化图表
+        let probabilityChart;
+        
+        function initChart(percentage) {
+            const ctx = document.getElementById('probability-chart').getContext('2d');
+            
+            // 如果图表已存在，先销毁
+            if (probabilityChart) {
+                probabilityChart.destroy();
+            }
+            
+            // 计算颜色基于概率值
+            let color;
+            if (percentage < 30) {
+                color = 'rgba(231, 76, 60, 0.8)'; // 红色
+            } else if (percentage < 60) {
+                color = 'rgba(241, 196, 15, 0.8)'; // 黄色
+            } else if (percentage < 100) {
+                color = 'rgba(0, 184, 148, 0.8)'; // 绿色
+            } else {
+                color = 'rgba(108, 92, 231, 0.8)'; // 紫色（超过100%）
+            }
+            
+            // 超过100%时特殊处理
+            const successPercentage = Math.min(percentage, 100);
+            const failPercentage = 100 - successPercentage;
+            
+            probabilityChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [successPercentage, failPercentage],
+                        backgroundColor: [
+                            color,
+                            'rgba(45, 52, 54, 0.3)'
+                        ],
+                        borderColor: [
+                            color,
+                            'rgba(45, 52, 54, 0.5)'
+                        ],
+                        borderWidth: 2,
+                        cutout: '75%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true,
+                        duration: 1000,
+                        easing: 'easeOutQuart'
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 添加强化石
+        function addStone() {
+            const stoneCount = stonesContainer.children.length;
+            if (stoneCount >= 3) return;
+            
+            const stoneDiv = document.createElement('div');
+            stoneDiv.className = 'stone-selector flex items-center justify-between bg-dark/50 p-4 rounded-lg border border-gray-700 transform transition-all duration-300 hover:border-accent/30';
+            stoneDiv.innerHTML = `
+                <span class="font-medium">强化石槽位${stoneCount + 1}</span>
+                <div class="flex items-center">
+                    <select class="stone-level bg-gray-800 border border-gray-700 text-light rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
+                        <option value="1">1级</option>
+                        <option value="2">2级</option>
+                        <option value="3">3级</option>
+                        <option value="4">4级</option>
+                        <option value="5">5级</option>
+                    </select>
+                    <button class="remove-stone ml-3 text-gray-400 hover:text-red-400 transition-colors">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            stonesContainer.appendChild(stoneDiv);
+            
+            // 添加事件监听器
+            stoneDiv.querySelector('.remove-stone').addEventListener('click', function() {
+                stoneDiv.classList.add('opacity-0', 'scale-95');
+                setTimeout(() => {
+                    stoneDiv.remove();
+                    updateRemoveButtons();
+                    calculateProbability();
+                }, 300);
+            });
+            
+            stoneDiv.querySelector('.stone-level').addEventListener('change', calculateProbability);
+            
+            // 更新删除按钮状态
+            updateRemoveButtons();
+            // 重新计算概率
+            calculateProbability();
+        }
+        
+        // 更新删除按钮状态
+        function updateRemoveButtons() {
+            const stoneCount = stonesContainer.children.length;
+            const removeButtons = document.querySelectorAll('.remove-stone');
+            
+            removeButtons.forEach((btn, index) => {
+                if (stoneCount <= 1) {
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = false;
+                }
+            });
+        }
+        
+        // 计算所需一级强化石总数
+        function calculatePrimaryStones() {
+            const stoneLevels = Array.from(document.querySelectorAll('.stone-level'))
+                .map(select => parseInt(select.value));
+            
+            let total = 0;
+            stoneLevels.forEach(level => {
+                total += stoneToPrimaryCount[level];
+            });
+            
+            return total;
+        }
+        
+        // 计算概率和材料需求
+        function calculateProbability() {
+            const starstoneLevel = parseInt(starstoneLevelInput.value);
+            
+            // 获取所有选中的强化石等级
+            const stoneLevels = Array.from(document.querySelectorAll('.stone-level'))
+                .map(select => parseInt(select.value));
+            
+            // 计算总加成
+            let totalBonus = 0;
+            stoneLevels.forEach(level => {
+                totalBonus += stoneBonuses[level][starstoneLevel - 1];
+            });
+            
+            // 计算所需一级强化石总数
+            const totalPrimary = calculatePrimaryStones();
+            
+            // 总概率 = 基础概率(0) + 总加成，可以超过100%
+            const totalProb = parseFloat(totalBonus.toFixed(3));
+            
+            // 更新UI
+            probabilityValue.textContent = `${totalProb}%`;
+            detailStarstone.textContent = `${starstoneLevel}级`;
+            
+            // 更新强化石详情
+            const stoneDetails = stoneLevels.map(level => `${level}级`).join(', ');
+            detailStones.textContent = `${stoneLevels.length}个 (${stoneDetails})`;
+            
+            // 更新加成显示
+            bonusProbability.textContent = `${parseFloat(totalBonus.toFixed(3))}%`;
+            
+            // 更新材料数量显示
+            totalPrimaryStones.textContent = totalPrimary;
+            materialCost.textContent = `${totalPrimary}个一级强化石`;
+            
+            // 更新图表
+            initChart(totalProb);
+        }
+        
+        // 生成概率表
+        function generateProbabilityTable() {
+            probabilityTableBody.innerHTML = '';
+            
+            for (let i = 1; i <= 12; i++) {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-800 hover:bg-dark/30 transition-colors';
+                
+                // 星石等级
+                row.innerHTML = `<td class="py-3 px-4 font-medium">${i}级</td>`;
+                
+                // 各级强化石的加成值（针对当前星石等级）
+                for (let j = 1; j <= 5; j++) {
+                    const bonus = stoneBonuses[j][i - 1]; // i-1是因为数组从0开始
+                    const cell = document.createElement('td');
+                    cell.className = 'py-3 px-4';
+                    cell.textContent = `${bonus}%`;
+                    row.appendChild(cell);
+                }
+                
+                probabilityTableBody.appendChild(row);
+            }
+        }
+        
+        // 事件监听器
+        starstoneLevelInput.addEventListener('input', function() {
+            starstoneLevelDisplay.textContent = this.value;
+            calculateProbability();
+        });
+        
+        addStoneBtn.addEventListener('click', addStone);
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化图表
+            initChart(50);
+            
+            // 生成概率表
+            generateProbabilityTable();
+            
+            // 为初始强化石添加事件监听器
+            document.querySelector('.stone-level').addEventListener('change', calculateProbability);
+        });
+    </script>
+</body>
+</html>
