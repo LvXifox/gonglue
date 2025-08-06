@@ -102,11 +102,11 @@
 
         <!-- 主内容区 -->
         <main class="flex-1 md:ml-64">
-            <!-- 英雄区域 -->
-            <section class="relative h-[100vh] flex items-center justify-center overflow-hidden">
+            <!-- 主区域 -->
+            <section class="relative h-[150vh] flex items-center justify-center overflow-hidden">
                 <div class="absolute inset-0 z-0">
                     <div class="absolute inset-0 bg-gradient-to-b from-dark/40 via-dark/70 to-dark z-10"></div>
-                    <img src="img/背景.png" alt="游戏场景背景图" class="w-full h-full object-cover">
+                    <img src="img/背景.png" alt="背景图" class="w-full h-full object-cover">
                 </div>
                 <div class="container mx-auto px-4 z-20 text-center">
                     <h1 class="text-[clamp(2rem,5vw,4rem)] font-bold mb-4 text-shadow leading-tight">
@@ -114,17 +114,33 @@
                     </h1>
 
                     <p class="text-[clamp(1rem,2vw,1.25rem)] ">游戏每日任务,限时副本,奖励次数刷新时间为早上8点</p>
-                    <p class="text-[clamp(1rem,2vw,1.25rem)] ">多人游戏模式(pvp和pve)(除了遗迹通路和熔岩地龙)的武器等级和武器技能等级固定为50级,装备和星石不生效,武器被动默认不解锁需自行解锁</p>
+                    <p class="text-[clamp(1rem,2vw,1.25rem)] ">火克草,草克水,水克火,光和暗互相克制,克制造成1.5倍伤害</p>
+                    <p class="text-[clamp(1rem,2vw,1.25rem)] ">多人游戏模式(pvp和pve)(除了遗迹通路和熔岩地龙)武器等级和武器技能等级固定为50级,装备和星石不生效,武器被动默认不解锁需自行解锁</p>
                     <p class="text-[clamp(1rem,2vw,1.25rem)] ">每天有20次奖励次数,章节关卡,星石秘境,材料副本,遗迹通路,熔岩地龙共享20次奖励次数,月卡加10次次数</p>
                     <p class="text-[clamp(1rem,2vw,1.25rem)] ">多人模式奖励次数不限(除了遗迹通路,熔岩地龙)</p>
                     <p class="text-[clamp(1rem,2vw,1.25rem)] ">当有人抽卡抽到SSR时,本频道会获得15分钟的SSR概率增加的(四叶草标志)buff</p>
                     <p class="text-[clamp(1rem,2vw,1.25rem)] ">武器券主要来源:菜单->多人->pve->魔力收集简单(普通券),魔力收集困难(限定券).属性固定,无需担心等级低</p>
                     <p class="text-[clamp(1rem,2vw,1.25rem)] ">翻滚时是不受伤害的,可以用来躲避掉进虚空的伤害(需要把握时机)</p>
                      <p class="text-[clamp(1rem,2vw,1.25rem)] ">钓鱼时不分水域,只分游戏内时间,部分鱼需要在白天或黑夜才能钓到</p>
-                    <a href="#login" class="inline-flex items-center gap-2 bg-primary hover:bg-primary/80 text-white font-medium py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
-                        喵~
-                        <i class="fa fa-arrow-down"></i>
-                    </a>
+                    <div class="flex flex-wrap justify-center gap-4 md:gap-6 mb-10">
+                <!-- 回主页按钮 -->
+                <a href="login.html" class="btn-hover bg-primary text-white py-3 px-6 rounded-xl flex items-center justify-center gap-2 min-w-[140px]">
+                    
+                    <span class="font-medium">下载登录教程</span>
+                </a>
+                
+                <!-- 登录按钮 -->
+                <a href="" class="btn-hover bg-secondary text-white py-3 px-6 rounded-xl flex items-center justify-center gap-2 min-w-[140px]">
+                    
+                    <span class="font-medium">暂无</span>
+                </a>
+                
+                <!-- 注册按钮 -->
+                <a href="" class="btn-hover bg-accent text-white py-3 px-6 rounded-xl flex items-center justify-center gap-2 min-w-[140px]">
+                    
+                    <span class="font-medium">暂无</span>
+                </a>
+            </div>
                 </div>
             </section>
 
@@ -200,11 +216,11 @@
                         <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-glow">基础介绍</h2>
                     </div>
                     
-                    <div class="grid md:grid-cols-3 gap-6">
+                    <div >
                         <!-- 地图及NPC介绍 -->
-                        <div class="bg-dark border border-primary/30 rounded-xl overflow-hidden shadow-lg shadow-primary/10 transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1">
-                            <div class="h-48 overflow-hidden">
-                                <img src="img/地图3.png" alt="地图及NPC介绍" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="bg-dark border  rounded-xl overflow-hidden shadow-lg  ">
+                            <div class=" overflow-hidden">
+                                <img src="img/地图3.png" alt="地图及NPC介绍" >
                             </div>
                             <div class="p-6">
                                 <h3 class="text-xl font-semibold mb-3 text-secondary flex items-center gap-2">
@@ -249,9 +265,9 @@
                         
                         <!-- 武器星石 -->
                          
-                        <div class="bg-dark border border-primary/30 rounded-xl overflow-hidden shadow-lg shadow-primary/10 transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1">
-                            <div class="h-48 overflow-hidden">
-                                <img src="img/星石装备属性.png" alt="星石装备属性" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="bg-dark border  rounded-xl overflow-hidden shadow-lg shadow-primary/10  ">
+                            <div class=" overflow-hidden">
+                                <img src="img/星石装备属性.png" alt="星石装备属性" >
                             </div>
                             <div class="p-6">
                                 <h3 class="text-xl font-semibold mb-3 text-secondary flex items-center gap-2">
@@ -277,9 +293,9 @@
                         </div>
                         
                           
-                        <div class="bg-dark border border-primary/30 rounded-xl overflow-hidden shadow-lg shadow-primary/10 transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1">
-                            <div class="h-48 overflow-hidden">
-                                <img src="img/星石概率.png" alt="星石概率强化表" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="bg-dark border  rounded-xl overflow-hidden shadow-lg ">
+                            <div class=" overflow-hidden">
+                                <img src="img/星石概率.png" alt="星石概率强化表" >
                             </div>
                             <div class="p-6">
                                 <h3 class="text-xl font-semibold mb-3 text-secondary flex items-center gap-2">
@@ -360,14 +376,14 @@
                 <div class="container mx-auto px-4">
                     <div class="flex items-center gap-3 mb-8">
                         <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-xl font-bold">2</div>
-                        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-glow">游戏模式介绍</h2>
+                        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-glow">游戏模式介绍(左右滑动)</h2>
                     </div>
                     
                     <!-- 模式标签切换 -->
                     <div class="mb-8 overflow-x-auto pb-2">
                         <div class="flex gap-2 min-w-max">
                             <button class="mode-tab active px-6 py-3 rounded-full bg-primary text-white font-medium transition-all" data-mode="story">冒险模式</button>
-                            <button class="mode-tab px-6 py-3 rounded-full bg-dark border border-primary/30 text-light/80 font-medium transition-all hover:bg-primary/10" data-mode="pvp">PVP竞技</button>
+                            <button class="mode-tab px-6 py-3 rounded-full bg-dark border border-primary/30 text-light/80 font-medium transition-all hover:bg-primary/10" data-mode="pvp">多人PVP</button>
                             <button class="mode-tab px-6 py-3 rounded-full bg-dark border border-primary/30 text-light/80 font-medium transition-all hover:bg-primary/10" data-mode="coop">多人副本</button>
                             <button class="mode-tab px-6 py-3 rounded-full bg-dark border border-primary/30 text-light/80 font-medium transition-all hover:bg-primary/10" data-mode="endless">魔力收集</button>
                         </div>

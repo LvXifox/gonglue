@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下载/登录相关</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#8B5CF6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .btn-hover {
+                @apply transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1;
+            }
+            .page-container {
+                @apply min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-800 dark:text-slate-100">
+    <div class="page-container p-4">
+        <!-- 顶部标题和按钮区域 -->
+        <header class="w-full max-w-6xl mx-auto py-6">
+            <!-- 页面标题 - 顶部中间 -->
+            <h1 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+                下载/登录相关
+            </h1>
+            
+            <!-- 按钮容器 -->
+            <div class="flex flex-wrap justify-center gap-4 md:gap-6 mb-10">
+                <!-- 回主页按钮 -->
+                <a href="index.html" class="btn-hover bg-primary text-white py-3 px-6 rounded-xl flex items-center justify-center gap-2 min-w-[140px]">
+                    
+                    <span class="font-medium">回主页</span>
+                </a>
+                
+                <!-- 登录按钮 -->
+                <a href="" class="btn-hover bg-secondary text-white py-3 px-6 rounded-xl flex items-center justify-center gap-2 min-w-[140px]">
+                    
+                    <span class="font-medium">暂无</span>
+                </a>
+                
+                <!-- 注册按钮 -->
+                <a href="" class="btn-hover bg-accent text-white py-3 px-6 rounded-xl flex items-center justify-center gap-2 min-w-[140px]">
+                    
+                    <span class="font-medium">暂无</span>
+                </a>
+            </div>
+        </header>
+        
+        <!-- 内容区域 - 左对齐的图片和文字 -->
+        <main class="w-full max-w-6xl mx-auto">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-md p-6 md:p-8 min-h-[300px]">
+                <!-- 示例内容 - 左对齐 -->
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-bold text-slate-800 dark:text-white">如何下载:</h2>
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white">电脑版:</h3>
+                    <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
+                        下载steam,在steam上购买或使用激活码激活并安装.
+                    </p>
+                    <a href="https://store.steampowered.com/about/">电脑版steam下载(点击跳转)</a>
+                    <p>电脑版第一次进游戏时一定要选择跨平台并绑定epic账号,这样就可以在手机上用epic账号登录,电脑手机数据互通.</p>
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white">手机版:</h3>
+                    <h4 class="text-2xl font-bold text-slate-800 dark:text-white">方法一(推荐):</h4>
+                    <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
+                        官方群点击右上角三个杠,下滑找到文件,找到名为StarArc_Echo-Android-V1.0.XX.apk.1(如下图)的并下载.下载完成后点击并选择"其他应用打开",然后选择自己手机默认的浏览器.如果默认浏览器不能识别那么去自己手机的应用商店下载qq浏览器(通过qq下载的qq浏览器解析包有问题,所以去应用商店),下载并安装好qq浏览器后返回群里,点击下载好的文件,选择用其他应用打开,选择qq浏览器(为什么我的叫万能阅读器?),检测为安装包,安装即可.
+                    </p>
+                    
+                    <div class="my-6">
+                        <img src="img/安装包.jpg" alt="安装包" class="rounded-lg shadow-sm w-full max-w-2xl h-auto mb-4" />
+                        <p class="text-sm text-slate-500 dark:text-slate-400 italic">群文件的安装包</p>
+                    </div>
+                     <h4 class="text-2xl font-bold text-slate-800 dark:text-white">方法二(麻烦,不实时):</h4>
+                    <p class="text-slate-700 dark:text-slate-300 leading-relaxed">下载国际版taptap并下载国际版星源遗境(和群文件安装包一样),(需要用到梯子)(如果你不知道什么是梯子那么请使用方法一)</p>
+                    <h2 class="text-xl font-semibold text-slate-800 dark:text-white">登录:</h2>
+                    <div class="my-6">
+                        <img src="img/epic登录.jpg" alt="登录界面" class="rounded-lg shadow-sm w-full max-w-2xl h-auto mb-4" />
+                        <p class="text-sm text-slate-500 dark:text-slate-400 italic">epic登录界面</p>
+                    </div>
+                    <p>进入下载好的星源,点击登录,会自动跳转到浏览器的epic登录界面,有epic账号就登录,没账号点击下方的创建账号,可以使用qq账号注册(你qq号后面加上@qq.com)(年龄填大于18?!),小窗qq接收验证码,完成注册.然后登录.</p>
+                    <ul class="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-300">
+                        <li>当前安装包最新版本1.0.25,进入游戏需要更新重启好几次,并且会卡在100%(其实没卡,继续等一段时间),直到更新到1.0.30版本</li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+        
+        <!-- 底部信息 -->
+        <footer class="w-full max-w-6xl mx-auto mt-16 text-sm text-slate-500 dark:text-slate-400 text-center">
+            <p>© 2025 绿熹 版权所有</p>
+        </footer>
+    </div>
+
+    <!-- 深色模式切换功能 -->
+    <script>
+        // 检查用户偏好
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+</body>
+</html>
+    
