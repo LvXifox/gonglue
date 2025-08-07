@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>装备属性计算器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E40AF',
+                        secondary: '#3B82F6',
+                        green: '#10B981',
+                        blue: '#3B82F6',
+                        purple: '#8B5CF6',
+                        neutral: '#64748B',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .attribute-card {
+                @apply bg-white rounded-lg shadow-md p-4 transition-all duration-300 hover:shadow-lg;
+            }
+            .quality-green {
+                @apply border-l-4 border-green bg-green/5;
+            }
+            .quality-blue {
+                @apply border-l-4 border-blue bg-blue/5;
+            }
+            .quality-purple {
+                @apply border-l-4 border-purple bg-purple/5;
+            }
+            .btn-primary {
+                @apply bg-primary hover:bg-primary/90 text-white font-medium py-2 px-4 rounded-md transition-all duration-200;
+            }
+            .select-wrapper {
+                @apply relative;
+            }
+            .select-wrapper select {
+                @apply appearance-none bg-white border border-gray-300 rounded-md py-2 pl-3 pr-10 leading-tight focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary;
+            }
+            .select-wrapper:after {
+                content: "▼";
+                @apply absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- 标题区域 -->
+        <header class="text-center mb-8">
+            <h1 class="text-[clamp(2rem,5vw,3rem)] font-bold text-gray-800 mb-4">装备属性计算器</h1>
+            <div class="flex flex-wrap justify-center gap-4 md:gap-6 mb-10">
+                <!-- 回主页按钮 -->
+                <a href="index.html" class="btn-hover bg-primary text-white py-3 px-6 rounded-xl flex items-center justify-center gap-2 min-w-[140px]">
+                    
+                    <span class="font-medium">回主页</span>
+                </a>
+                
+                <!-- 登录按钮 
+                <a href="" class="btn-hover bg-secondary text-white py-3 px-6 rounded-xl flex items-center justify-center gap-2 min-w-[140px]">
+                    
+                    <span class="font-medium">暂无</span>
+                </a>
+                
+                 注册按钮 
+                <a href="" class="btn-hover bg-accent text-white py-3 px-6 rounded-xl flex items-center justify-center gap-2 min-w-[140px]">
+                    
+                    <span class="font-medium">暂无</span>
+                </a>-->
+            </div>
+            <!-- <a href="index.html" class="btn-primary flex items-center mx-auto">
+                回主页
+            </a> -->
+        </header>
+
+        <!-- 装备图片 -->
+        <div class="mb-10 rounded-xl overflow-hidden shadow-lg transform transition-transform duration-500 hover:scale-[1.01]">
+            <img src="img/星石装备属性.png" alt="星石装备属性图" >
+        </div>
+
+        <!-- 选择区域 -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-10">
+            <h2 class="text-xl font-semibold text-gray-700 mb-6 border-b pb-3">装备选择</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 装备类型选择 -->
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">装备类型</label>
+                    <div class="select-wrapper">
+                        <select id="equipmentType" class="w-full">
+                            <option value="beginner">新手装备</option>
+                            <option value="normal">普通装备</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 装备品质选择 -->
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">装备品质</label>
+                    <div class="select-wrapper">
+                        <select id="equipmentQuality" class="w-full">
+                            <option value="green">绿色</option>
+                            <option value="blue">蓝色</option>
+                            <option value="purple">紫色</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 属性选择 -->
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">属性类型</label>
+                    <div class="select-wrapper">
+                        <select id="attributeType" class="w-full">
+                            <option value="critRate">暴击</option>
+                            <option value="critDmg">暴伤</option>
+                            <option value="hp">生命</option>
+                            <option value="defense">物/魔防</option>
+                            <option value="attack">物/魔攻</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 装备等级选择 -->
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">装备等级</label>
+                    <div class="select-wrapper">
+                        <select id="equipmentLevel" class="w-full">
+                            <option value="0">0级</option>
+                            <option value="1">1级</option>
+                            <option value="2">2级</option>
+                            <option value="3">3级</option>
+                            <option value="4">4级</option>
+                            <option value="5">5级</option>
+                            <option value="6">6级</option>
+                            <option value="7">7级</option>
+                            <option value="8">8级</option>
+                            <option value="9">9级</option>
+                            <option value="10">10级</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 当前选择信息 -->
+        <div id="selectionInfo" class="bg-white rounded-xl shadow-md p-6 mb-10">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">当前选择</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                    <div class="mr-3 w-8"></div>
+                    <div>
+                        <p class="text-sm text-gray-500">装备类型</p>
+                        <p id="currentType" class="font-medium">新手装备</p>
+                    </div>
+                </div>
+                <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                    <div class="mr-3 w-8"></div>
+                    <div>
+                        <p class="text-sm text-gray-500">装备品质</p>
+                        <p id="currentQuality" class="font-medium">绿色</p>
+                    </div>
+                </div>
+                <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                    <div class="mr-3 w-8"></div>
+                    <div>
+                        <p class="text-sm text-gray-500">属性类型</p>
+                        <p id="currentAttribute" class="font-medium">暴击</p>
+                    </div>
+                </div>
+                <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                    <div class="mr-3 w-8"></div>
+                    <div>
+                        <p class="text-sm text-gray-500">装备等级</p>
+                        <p id="currentLevel" class="font-medium">0级</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 属性结果展示 -->
+        <div class="mb-10">
+            <h2 class="text-xl font-semibold text-gray-700 mb-6 border-b pb-3">装备属性值</h2>
+            <div class="grid grid-cols-1 gap-6">
+                <!-- 当前属性 -->
+                <div id="attributeCard" class="attribute-card quality-green">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 id="currentAttributeName" class="font-semibold text-gray-800 text-xl">暴击</h3>
+                            <p class="text-sm text-gray-500">0级基础值: <span id="baseValue">0.500</span></p>
+                        </div>
+                        <p id="attributeValue" class="text-4xl font-bold text-primary">0.500</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="text-center text-gray-500 text-sm py-6">
+            <p>装备属性计算器 &copy; 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // 属性名称映射
+        const attributeNames = {
+            critRate: "暴击",
+            critDmg: "暴伤",
+            hp: "生命",
+            defense: "物/魔防",
+            attack: "物/魔攻"
+        };
+
+        // 装备基础属性数据（0级时的属性值）
+        const equipmentData = {
+            beginner: { // 新手装备
+                green: {
+                    critRate: 0.5,
+                    critDmg: 1,
+                    hp: 80,
+                    defense: 5,
+                    attack: 10
+                },
+                blue: {
+                    critRate: 1,
+                    critDmg: 2,
+                    hp: 100,
+                    defense: 8,
+                    attack: 15
+                },
+                purple: {
+                    critRate: 2,
+                    critDmg: 3,
+                    hp: 120,
+                    defense: 11,
+                    attack: 20
+                }
+            },
+            normal: { // 普通装备
+                green: {
+                    critRate: 1,
+                    critDmg: 2.5,
+                    hp: 110,
+                    defense: 10,
+                    attack: 16
+                },
+                blue: {
+                    critRate: 2.3,
+                    critDmg: 3.8,
+                    hp: 130,
+                    defense: 13,
+                    attack: 22
+                },
+                purple: {
+                    critRate: 3,
+                    critDmg: 4.7,
+                    hp: 150,
+                    defense: 16,
+                    attack: 28
+                }
+            }
+        };
+
+        // DOM 元素
+        const typeSelect = document.getElementById('equipmentType');
+        const qualitySelect = document.getElementById('equipmentQuality');
+        const attributeSelect = document.getElementById('attributeType');
+        const levelSelect = document.getElementById('equipmentLevel');
+        const currentTypeEl = document.getElementById('currentType');
+        const currentQualityEl = document.getElementById('currentQuality');
+        const currentAttributeEl = document.getElementById('currentAttribute');
+        const currentLevelEl = document.getElementById('currentLevel');
+        const attributeValue = document.getElementById('attributeValue');
+        const currentAttributeName = document.getElementById('currentAttributeName');
+        const baseValue = document.getElementById('baseValue');
+        const attributeCard = document.getElementById('attributeCard');
+        const homeBtn = document.getElementById('homeBtn');
+
+        // 计算装备属性
+        function calculateAttributes() {
+            const type = typeSelect.value;
+            const quality = qualitySelect.value;
+            const attribute = attributeSelect.value;
+            const level = parseInt(levelSelect.value);
+            
+            // 获取0级基础属性
+            const baseAttr = equipmentData[type][quality][attribute];
+            
+            // 计算当前等级属性：每级增加0级的0.25倍
+            const currentAttr = baseAttr * (1 + level * 0.25);
+            
+            // 更新显示
+            updateDisplay(type, quality, attribute, level, baseAttr, currentAttr);
+        }
+
+        // 更新显示内容
+        function updateDisplay(type, quality, attribute, level, baseAttr, currentAttr) {
+            // 更新当前选择信息
+            currentTypeEl.textContent = type === 'beginner' ? '新手装备' : '普通装备';
+            currentQualityEl.textContent = 
+                quality === 'green' ? '绿色' : 
+                quality === 'blue' ? '蓝色' : '紫色';
+            currentAttributeEl.textContent = attributeNames[attribute];
+            currentLevelEl.textContent = `${level}级`;
+            currentAttributeName.textContent = attributeNames[attribute];
+            
+            // 更新属性值，所有属性最多保留小数点后三位
+            attributeValue.textContent = currentAttr.toFixed(3);
+            baseValue.textContent = baseAttr.toFixed(3);
+            
+            // 更新卡片样式以匹配品质颜色
+            attributeCard.classList.remove('quality-green', 'quality-blue', 'quality-purple');
+            attributeCard.classList.add(`quality-${quality}`);
+            
+            // 添加数值变化动画
+            attributeValue.classList.add('scale-110', 'text-primary');
+            setTimeout(() => {
+                attributeValue.classList.remove('scale-110', 'text-primary');
+            }, 300);
+        }
+
+        // 回主页按钮点击事件
+        homeBtn.addEventListener('click', () => {
+            alert('index.html');
+            // 实际应用中可以使用: window.location.href = 'index.html';
+        });
+
+        // 监听选择变化
+        typeSelect.addEventListener('change', calculateAttributes);
+        qualitySelect.addEventListener('change', calculateAttributes);
+        attributeSelect.addEventListener('change', calculateAttributes);
+        levelSelect.addEventListener('change', calculateAttributes);
+
+        // 初始化页面
+        calculateAttributes();
+    </script>
+</body>
+</html>
+    
